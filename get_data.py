@@ -13,20 +13,22 @@ class GetData:
         self.driver_1 = driver_1
         self.driver_2 = driver_2
 
-    def prcess_drivers(self, argument, *drivers):
+    def process_drivers(self, argument, *drivers):
         results = {}
         for f in drivers:
             var = argument(f)
             results[f] = var
-        return  results
+        return results
 
     def data(self):
         session = fastf1.get_session(year=2026, gp="Australia", identifier='Qualifying')
         session.load()
 
         # Gets ALL Lap times for specific drivers //Both use driver call sign
-        driver_data = self.prcess_drivers(session.laps.pick_drivers, self.driver_1, self.driver_2)
+        driver_data = self.process_drivers(session.laps.pick_drivers, self.driver_1, self.driver_2)
+        #print(driver_data)
 
         # Gets FASTEST Lap for drivers
+        fastest_data = self.process_drivers(lambda x : driver_data[x].pick_fastest(), self.driver_1, self.driver_2)
 
 GetData("ANT", "HAM").data()
