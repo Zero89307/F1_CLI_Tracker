@@ -1,15 +1,19 @@
-/* style.tcss */
-Intro {
-    align: center middle;
-    background: #000000;
+Screen {
+    color: white;
 }
 
-#logo {
+#intro {
+    width: 100%;
+    height: auto;
+    content-align: center middle;
     color: red;
-    text-style: bold italic;
-    margin-bottom: 2;
+    text-style: bold;
+    margin-top: 10;
 }
 
-#hinweis {
+#hint {
+    width: 100%;
+    content-align: center middle;
+    margin-top: 2;
     color: gray;
 }
