@@ -1,0 +1,15 @@
+/* style.tcss */
+Intro {
+    align: center middle;
+    background: #000000;
+}
+
+#logo {
+    color: red;
+    text-style: bold italic;
+    margin-bottom: 2;
+}
+
+#hinweis {
+    color: gray;
+}
