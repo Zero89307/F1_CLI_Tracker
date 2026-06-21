@@ -1,14 +1,12 @@
-# 🏎️ Minimalistischer F1-Telemetry-Tracker im Terminal
+# 🏎️ Minimalist F1 Telemetry Tracker in the Terminal
 
-Nutz die **FastF1 API**, um historische Rundenzeiten oder Sektor-Daten von Rennen zu ziehen.
+A purely text-based Python script that pulls historical lap times and sector data via the **FastF1 API**. No bloated UI, just pure text directly in the command prompt.
 
-### 🏗️ Das Setup
-Ein Python-Skript, das nur im Terminal läuft. Keine überladene UI, nur purer Text.
+## ✨ Features
+* **Direct Head-to-Head Comparison:** Enter two driver abbreviations (e.g., `VER` and `HAM`).
+* **ASCII Visualization:** The script instantly generates a clean ASCII bar chart showing the delta of their fastest laps in the last Qualifying.
+* **Clean CLI:** No unnecessary menu design, 100% focus on the output.
 
-### ⚙️ Die Funktion
-Gib zwei Fahrerkürzel ein und das Skript generiert direkt im Command Prompt ein sauberes **ASCII-Balkendiagramm** mit dem Delta ihrer schnellsten Runden im letzten Qualifying.
-
-### 🎯 Der Fokus
-- API-Handling in Python
-- Pandas für Datenstrukturierung
-- Sauberes CLI-Design ohne überflüssige Menüs
+## ⚙️ Tech Stack
+* **Python** * **FastF1** (API for telemetry and timing data)
+* **Pandas** (Data structuring and analysis)
