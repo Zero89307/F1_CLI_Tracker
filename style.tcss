@@ -12,6 +12,7 @@ Screen {
 .bento-box {
     border: solid mintcream;
     height: 100%;
+    padding: 0 1 1 1;
 }
 
 Intro {

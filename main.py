@@ -4,6 +4,7 @@ from textual.widgets import Label, Static
 from textual.screen import Screen
 from textual import events
 from textual.containers import Grid, Container, Horizontal
+import textwrap
 
 def ascii_art(filename : str):
     try:
@@ -45,11 +46,23 @@ class Dashboard(Screen):
             yield box("MAIN MENU")
             yield box("NEWS")
         with Grid(id="second-grid"):
-            yield box("NEXT RACE: [white on #141819]COUNTRY GRAND PRIX[/white on #141819]")
+            with box("NEXT RACE: [white on #141819]COUNTRY GRAND PRIX[/white on #141819]"):
+                yield Label(f"   Date : 1. - 3. January 0000\n   Status : [yellow]Upcoming[/yellow] [#E8D9BF](RACE STARTS in $DAYS, $HOURS)[/#E8D9BF]\n")
+                text = textwrap.dedent(
+                    f"""\
+                    ⏱️ [#E23E3C]WEEKEND TIMETABLE[/#E23E3C]
+                        FP1   : MON 1.01 (0.00 CET)
+                        FP2   : MON 1.01 (0.00 CET)
+                        FP3   : MON 1.01 (0.00 CET)
+                        Quali : MON 1.01 (0.00 CET)
+                        Race  : MON 1.01 (0.00 CET)
+                    """
+                )
+                yield Label(text)
             yield box("LIVE STANDINGS")
 
         with Container(id="footer"):
-            yield Label("F1 CLI | CURRENT_RACE: $DAYS | PRESS \\[[#e10600]1-7[/#e10600]] FOR MENU | (q) QUIT", id="footer-text")
+            yield Label("F1 CLI | CURRENT_RACE: $DAYS | PRESS \\[[#E23E3C]1-7[/#E23E3C]] FOR MENU | (q) QUIT", id="footer-text")
 
 
 class F1App(App):
