@@ -14,20 +14,21 @@ Screen {
     height: 100%;
 }
 
+Intro {
+    align: center middle;
+    layout: vertical;
+}
+
 #intro {
-    width: 100%;
-    height: auto;
     content-align: center middle;
     color: red;
     text-style: bold;
-    margin-top: 10;
 }
 
 #hint {
-    width: 100%;
     content-align: center middle;
-    margin-top: 2;
     color: gray;
+    margin-top: 2;
 }
 #header {
     height: 7;
