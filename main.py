@@ -43,7 +43,18 @@ class Dashboard(Screen):
             yield Label("\nF1 [#E23E3C]CLI[/#E23E3C] [bold white on #141819]DASHBOARD[/bold white on #141819]\n   [gray]v0.1 \\[LIVE][/gray]", id="header-text")
 
         with Grid(id="first-grid"):
-            yield box("MAIN MENU")
+            with box("MAIN MENU"):
+                menu = textwrap.dedent("""
+                  [yellow][1][/yellow] Session Overview
+                  [yellow][2][/yellow] Race Calender
+                  [yellow][3][/yellow] Driver Standings
+                  [yellow][4][/yellow] Constructors Standings
+                  [yellow][5][/yellow] Current Weekend
+                  [yellow][6][/yellow] News
+                  [yellow][7][/yellow] Help / Info 
+
+                """)
+                yield Label(menu)
             yield box("NEWS")
         with Grid(id="second-grid"):
             with box("NEXT RACE: [white on #141819]COUNTRY GRAND PRIX[/white on #141819]"):
