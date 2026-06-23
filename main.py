@@ -55,7 +55,18 @@ class Dashboard(Screen):
 
                 """)
                 yield Label(menu)
-            yield box("NEWS")
+            with box("NEWS"):
+                news = textwrap.dedent(
+                f"""\
+                [#E23E3C]CURRENT NEWS:[/#E23E3C]
+                
+                NEWS PULLED FROM API NEWS PULLED FROM API NEWS PULLED FROM API NEWS PULLED FROM API
+                NEWS PULLED FROM API NEWS PULLED FROM API NEWS PULLED FROM API NEWS PULLED FROM API
+                NEWS PULLED FROM API NEWS PULLED FROM API NEWS PULLED FROM API NEWS PULLED FROM API
+                """
+                )
+                yield Label(news)
+
         with Grid(id="second-grid"):
             with box("NEXT RACE: [white on #141819]COUNTRY GRAND PRIX[/white on #141819]"):
                 yield Label(f"   Date : 1. - 3. January 0000\n   Status : [yellow]Upcoming[/yellow] [#E8D9BF](RACE STARTS in $DAYS, $HOURS)[/#E8D9BF]\n")
@@ -70,7 +81,20 @@ class Dashboard(Screen):
                     """
                 )
                 yield Label(text)
-            yield box("LIVE STANDINGS")
+            with box("LIVE STANDINGS"):
+                standings = textwrap.dedent(
+                    f"""\
+                    DRIVERS:
+                    1. $DRIVER_NAME     $DRIVER_POINTS ($DRIVER_WINS)
+                    2. $DRIVER_NAME     $DRIVER_POINTS ($DRIVER_WINS)
+                    3. $DRIVER_NAME     $DRIVER_POINTS ($DRIVER_WINS)               
+                    CONSTRUCTORS:
+                    1. $CONSTRUCTORS_NAME     $CONSTRUCTORS_POINTS
+                    2. $CONSTRUCTORS_NAME     $CONSTRUCTORS_POINTS
+                    3. $CONSTRUCTORS_NAME     $CONSTRUCTORS_POINTS
+                    """
+                )
+                yield Label(standings)
 
         with Container(id="footer"):
             yield Label("F1 CLI | CURRENT_RACE: $DAYS | PRESS \\[[#E23E3C]1-7[/#E23E3C]] FOR MENU | (q) QUIT", id="footer-text")
