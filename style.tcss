@@ -1,0 +1,64 @@
+* {
+    text-style: bold;
+}
+Screen {
+    color: white;
+    layout: grid;
+    grid-size: 3 3;
+    grid-gutter: 1 2;
+
+}
+
+.bento-box {
+    border: solid mintcream;
+    height: 100%;
+    padding: 0 1 0 1;
+}
+
+Intro {
+    align: center middle;
+    layout: vertical;
+}
+
+#intro {
+    content-align: center middle;
+    color: red;
+    text-style: bold;
+}
+
+#hint {
+    content-align: center middle;
+    color: gray;
+    margin-top: 2;
+}
+#header {
+    height: 7;
+    border: solid white;
+    grid-size: 3 1;
+    grid-columns: 1fr 1fr 1fr;
+}
+
+#header-text {
+    width: 1fr;
+    content-align: center middle;
+}
+#logo {
+    color: #e10600;
+}
+
+Dashboard{
+    layout: vertical;
+    background: #141819;
+}
+
+#footer { height: 1; background: #424649; }
+
+
+#first-grid, #second-grid {
+    height: 1fr;
+    layout: grid;
+    grid-gutter: 1 1;
+}
+
+#first-grid { grid-size: 2 1; grid-columns: 1fr 2fr; }
+#second-grid { grid-size: 2 1; grid-columns: 1fr 1fr; }
