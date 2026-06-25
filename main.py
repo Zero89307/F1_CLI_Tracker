@@ -5,6 +5,9 @@ from textual.screen import Screen
 from textual import events
 from textual.containers import Grid, Container, Horizontal
 import textwrap
+from dashboard_data import next_race_data
+
+next_race_data = next_race_data()
 
 def ascii_art(filename : str):
     try:
@@ -68,16 +71,16 @@ class Dashboard(Screen):
                 yield Label(news)
 
         with Grid(id="second-grid"):
-            with box("NEXT RACE: [white on #141819]COUNTRY GRAND PRIX[/white on #141819]"):
-                yield Label(f"   Date : 1. - 3. January 0000\n   Status : [yellow]Upcoming[/yellow] [#E8D9BF](RACE STARTS in $DAYS, $HOURS)[/#E8D9BF]\n")
+            with box(f"NEXT RACE: [white on #141819]{next_race_data["country"]} GRAND PRIX[/white on #141819] ({next_race_data["location"]})"):
+                yield Label(f"   Date : {next_race_data["weekend_duration"]}.\n   Status :[yellow] RACE STARTS in {next_race_data["race"]["time_left"]["days"]} days, {next_race_data["race"]["time_left"]["hours"]} hours, {next_race_data["race"]["time_left"]["minutes"]} min[/yellow]\n")
                 text = textwrap.dedent(
                     f"""\
                     ⏱️ [#E23E3C]WEEKEND TIMETABLE[/#E23E3C]
-                        FP1   : MON 1.01 (0.00 CET)
-                        FP2   : MON 1.01 (0.00 CET)
-                        FP3   : MON 1.01 (0.00 CET)
-                        Quali : MON 1.01 (0.00 CET)
-                        Race  : MON 1.01 (0.00 CET)
+                        FP1   : MON {next_race_data["fp"]["fp_dates"]["fp1_date"]} ({next_race_data["fp"]["fp_times"]["fp1_time"]} CET)
+                        FP2   : MON {next_race_data["fp"]["fp_dates"]["fp2_date"]} ({next_race_data["fp"]["fp_times"]["fp2_time"]} CET)
+                        FP3   : MON {next_race_data["fp"]["fp_dates"]["fp3_date"]} ({next_race_data["fp"]["fp_times"]["fp3_time"]} CET)
+                        Quali : MON {next_race_data["quali"]["quali_date"]} ({next_race_data["quali"]["quali_time"]} CET)
+                        Race  : MON {next_race_data["race"]["race_date"]} ({next_race_data["race"]["race_time"]} CET)
                     """
                 )
                 yield Label(text)
