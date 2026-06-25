@@ -5,9 +5,10 @@ from textual.screen import Screen
 from textual import events
 from textual.containers import Grid, Container, Horizontal
 import textwrap
-from dashboard_data import next_race_data
+from dashboard_data import next_race_data, get_f1_news
 
 next_race_data = next_race_data()
+news_list = get_f1_news()
 
 def ascii_art(filename : str):
     try:
@@ -59,16 +60,8 @@ class Dashboard(Screen):
                 """)
                 yield Label(menu)
             with box("NEWS"):
-                news = textwrap.dedent(
-                f"""\
-                [#E23E3C]CURRENT NEWS:[/#E23E3C]
-                
-                NEWS PULLED FROM API NEWS PULLED FROM API NEWS PULLED FROM API NEWS PULLED FROM API
-                NEWS PULLED FROM API NEWS PULLED FROM API NEWS PULLED FROM API NEWS PULLED FROM API
-                NEWS PULLED FROM API NEWS PULLED FROM API NEWS PULLED FROM API NEWS PULLED FROM API
-                """
-                )
-                yield Label(news)
+                for news in news_list:
+                    yield Label("\n"+ "[#E23E3C]-  [/#E23E3C]" + news + "[#E23E3C].[/#E23E3C]")
 
         with Grid(id="second-grid"):
             with box(f"NEXT RACE: [white on #141819]{next_race_data["country"]} GRAND PRIX[/white on #141819] ({next_race_data["location"]})"):

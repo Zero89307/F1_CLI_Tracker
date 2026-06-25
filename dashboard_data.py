@@ -1,6 +1,8 @@
 import fastf1
 import os
 import datetime
+import feedparser
+
 if not os.path.exists('cache_data'):
     os.mkdir('cache_data')
 fastf1.Cache.enable_cache('cache_data')
@@ -35,6 +37,14 @@ def next_race_data():
             }
         }
     }
-    print(type(weekend_details["race"]["time_left"]["hours"]))
     return weekend_details
-next_race_data()
+
+def get_f1_news():
+    feed_url = "https://www.motorsport.com/rss/f1/news/"
+    news_feed = feedparser.parse(feed_url)
+
+    news_list = []
+    for entry in news_feed.entries[:4]:
+        news_list.append(entry.title)
+
+    return news_list
