@@ -48,3 +48,29 @@ def get_f1_news():
         news_list.append(entry.title)
 
     return news_list
+
+def current_standings():
+    drivers  = fastf1.ergast.Ergast().get_driver_standings(2026)
+    constructors = fastf1.ergast.Ergast().get_constructor_standings(2026)
+
+    driver_df = drivers.content[0]
+    constructors_df = constructors.content[0]
+
+    standings = {
+        f"drivers" : {
+            driver_df["givenName"].iloc[i]: {
+                "constructor": driver_df["constructorNames"].iloc[i][0],
+                "points": driver_df["points"].iloc[i].item(),
+                "wins": driver_df["wins"].iloc[i].item()
+            } for i in range(3)
+        },
+        "constructors" : {
+            constructors_df["constructorName"].iloc[j] : {
+                constructors_df["points"].iloc[j].item(),
+                constructors_df["wins"].iloc[j].item()
+            } for j in range(3)
+        }
+    }
+    print(standings)
+    return standings
+current_standings()
