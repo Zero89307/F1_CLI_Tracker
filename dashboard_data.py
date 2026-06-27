@@ -57,20 +57,22 @@ def current_standings():
     constructors_df = constructors.content[0]
 
     standings = {
-        f"drivers" : {
-            driver_df["givenName"].iloc[i]: {
+        f"drivers" : [
+            {
+                "name" : driver_df["givenName"].iloc[i],
                 "constructor": driver_df["constructorNames"].iloc[i][0],
                 "points": driver_df["points"].iloc[i].item(),
                 "wins": driver_df["wins"].iloc[i].item()
             } for i in range(3)
-        },
-        "constructors" : {
-            constructors_df["constructorName"].iloc[j] : {
-                constructors_df["points"].iloc[j].item(),
-                constructors_df["wins"].iloc[j].item()
+        ],
+        "constructors" : [
+            {
+                "name" : constructors_df["constructorName"].iloc[j],
+                "points" : constructors_df["points"].iloc[j].item(),
+                "wins" : constructors_df["wins"].iloc[j].item()
             } for j in range(3)
-        }
+        ]
+
     }
-    print(standings)
     return standings
 current_standings()

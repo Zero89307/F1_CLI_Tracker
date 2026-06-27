@@ -7,9 +7,7 @@ from textual.containers import Grid, Container, Horizontal
 import textwrap
 from dashboard_data import next_race_data, get_f1_news, current_standings
 
-next_race_data = next_race_data()
-news_list = get_f1_news()
-current_standings = current_standings()
+
 
 def ascii_art(filename : str):
     try:
@@ -33,6 +31,11 @@ class Intro(Screen):
             self.app.push_screen(Dashboard())
 
 class Dashboard(Screen):
+
+    next_race_data = next_race_data()
+    news_list = get_f1_news()
+    current_standings = current_standings()
+
     CSS_PATH = "style.tcss"
 
     BINDINGS = [
