@@ -82,13 +82,13 @@ class Dashboard(Screen):
                 standings = textwrap.dedent(
                     f"""\
                     DRIVERS:
-                    1. $DRIVER_NAME     $DRIVER_POINTS ($DRIVER_WINS)
-                    2. $DRIVER_NAME     $DRIVER_POINTS ($DRIVER_WINS)
-                    3. $DRIVER_NAME     $DRIVER_POINTS ($DRIVER_WINS)               
+                    1. {current_standings["drivers"][0]["name"]}     {current_standings["drivers"][0]["points"]} [yellow]Points[/yellow] ({current_standings["drivers"][0]["wins"]} wins)
+                    2. {current_standings["drivers"][1]["name"]}     {current_standings["drivers"][0]["points"]} [yellow]Points[/yellow] ({current_standings["drivers"][1]["wins"]} wins)
+                    3. {current_standings["drivers"][2]["name"]}     {current_standings["drivers"][0]["points"]} [yellow]Points[/yellow] ({current_standings["drivers"][2]["wins"]} wins)         
                     CONSTRUCTORS:
-                    1. $CONSTRUCTORS_NAME     $CONSTRUCTORS_POINTS
-                    2. $CONSTRUCTORS_NAME     $CONSTRUCTORS_POINTS
-                    3. $CONSTRUCTORS_NAME     $CONSTRUCTORS_POINTS
+                    1. {current_standings["constructors"][0]["name"]}     {current_standings["constructors"][0]["points"]} [yellow]Points[/yellow] ({current_standings["constructors"][0]["wins"]} wins)
+                    2. {current_standings["constructors"][1]["name"]}     {current_standings["constructors"][1]["points"]} [yellow]Points[/yellow] ({current_standings["constructors"][1]["wins"]} wins)
+                    3. {current_standings["constructors"][2]["name"]}     {current_standings["constructors"][2]["points"]} [yellow]Points[/yellow] ({current_standings["constructors"][2]["wins"]} wins)
                     """
                 )
                 yield Label(standings)

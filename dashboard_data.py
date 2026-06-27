@@ -61,14 +61,14 @@ def current_standings():
             {
                 "name" : driver_df["givenName"].iloc[i],
                 "constructor": driver_df["constructorNames"].iloc[i][0],
-                "points": driver_df["points"].iloc[i].item(),
+                "points": int(driver_df["points"].iloc[i].item()),
                 "wins": driver_df["wins"].iloc[i].item()
             } for i in range(3)
         ],
         "constructors" : [
             {
                 "name" : constructors_df["constructorName"].iloc[j],
-                "points" : constructors_df["points"].iloc[j].item(),
+                "points" : int(constructors_df["points"].iloc[j].item()),
                 "wins" : constructors_df["wins"].iloc[j].item()
             } for j in range(3)
         ]
