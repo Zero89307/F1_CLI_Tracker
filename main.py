@@ -1,3 +1,4 @@
+from quart.utils import cancel_tasks
 from rich.box import Box
 from textual.app import App, ComposeResult
 from textual.widgets import Label, Static
@@ -21,6 +22,23 @@ def box(text: str):
     bento = Static(classes="bento-box")
     bento.border_title = f"[#E23E3C]{text}[/#E23E3C]"
     return bento
+
+def format_name(category : str, index : int, parameter=None):
+    base_name = current_standings[category][index]["name"]
+    if category == "drivers":
+        team = current_standings[category][index]["constructor"]
+        return f"{base_name} ({team})"
+    return base_name
+
+def header():
+    with Grid(id="header"):
+        yield Label(ascii_art("logo.txt"), id="logo")
+        yield Label("\nF1 [#E23E3C]CLI[/#E23E3C] [bold white on #141819]DASHBOARD[/bold white on #141819]\n   [gray]v0.1 \\[LIVE][/gray]",id="header-text")
+
+def footer():
+    with Container(id="footer"):
+        yield Label("F1 CLI | CURRENT_RACE: $DAYS | PRESS \\[[#E23E3C]1-7[/#E23E3C]] FOR MENU | (q) QUIT",id="footer-text")
+
 class Intro(Screen):
     CSS_PATH = "style.tcss"
 
@@ -43,9 +61,7 @@ class Dashboard(Screen):
         self.app.exit()
 
     def compose(self) -> ComposeResult:
-        with Grid(id="header"):
-            yield Label(ascii_art("logo.txt"), id="logo")
-            yield Label("\nF1 [#E23E3C]CLI[/#E23E3C] [bold white on #141819]DASHBOARD[/bold white on #141819]\n   [gray]v0.1 \\[LIVE][/gray]", id="header-text")
+        yield from header()
 
         with Grid(id="first-grid"):
             with box("MAIN MENU"):
@@ -70,11 +86,11 @@ class Dashboard(Screen):
                 text = textwrap.dedent(
                     f"""\
                     ⏱️ [#E23E3C]WEEKEND TIMETABLE[/#E23E3C]
-                        FP1   : MON {next_race_data["fp"]["fp_dates"]["fp1_date"]} ({next_race_data["fp"]["fp_times"]["fp1_time"]} CET)
-                        FP2   : MON {next_race_data["fp"]["fp_dates"]["fp2_date"]} ({next_race_data["fp"]["fp_times"]["fp2_time"]} CET)
-                        FP3   : MON {next_race_data["fp"]["fp_dates"]["fp3_date"]} ({next_race_data["fp"]["fp_times"]["fp3_time"]} CET)
-                        Quali : MON {next_race_data["quali"]["quali_date"]} ({next_race_data["quali"]["quali_time"]} CET)
-                        Race  : MON {next_race_data["race"]["race_date"]} ({next_race_data["race"]["race_time"]} CET)
+                        FP1   : {next_race_data["fp"]["fp_dates"]["fp1_date"]} ({next_race_data["fp"]["fp_times"]["fp1_time"]} CET)
+                        FP2   : {next_race_data["fp"]["fp_dates"]["fp2_date"]} ({next_race_data["fp"]["fp_times"]["fp2_time"]} CET)
+                        FP3   : {next_race_data["fp"]["fp_dates"]["fp3_date"]} ({next_race_data["fp"]["fp_times"]["fp3_time"]} CET)
+                        Quali : {next_race_data["quali"]["quali_date"]} ({next_race_data["quali"]["quali_time"]} CET)
+                        Race  : {next_race_data["race"]["race_date"]} ({next_race_data["race"]["race_time"]} CET)
                     """
                 )
                 yield Label(text)
@@ -82,19 +98,18 @@ class Dashboard(Screen):
                 standings = textwrap.dedent(
                     f"""\
                     DRIVERS:
-                    1. {current_standings["drivers"][0]["name"]}     {current_standings["drivers"][0]["points"]} [yellow]Points[/yellow] ({current_standings["drivers"][0]["wins"]} wins)
-                    2. {current_standings["drivers"][1]["name"]}     {current_standings["drivers"][0]["points"]} [yellow]Points[/yellow] ({current_standings["drivers"][1]["wins"]} wins)
-                    3. {current_standings["drivers"][2]["name"]}     {current_standings["drivers"][0]["points"]} [yellow]Points[/yellow] ({current_standings["drivers"][2]["wins"]} wins)         
-                    CONSTRUCTORS:
-                    1. {current_standings["constructors"][0]["name"]}     {current_standings["constructors"][0]["points"]} [yellow]Points[/yellow] ({current_standings["constructors"][0]["wins"]} wins)
-                    2. {current_standings["constructors"][1]["name"]}     {current_standings["constructors"][1]["points"]} [yellow]Points[/yellow] ({current_standings["constructors"][1]["wins"]} wins)
-                    3. {current_standings["constructors"][2]["name"]}     {current_standings["constructors"][2]["points"]} [yellow]Points[/yellow] ({current_standings["constructors"][2]["wins"]} wins)
+                    [#E23E3C]1.[/#E23E3C] {format_name("drivers", 0):<25} {current_standings["drivers"][0]["points"]:>3} [yellow]Points[/yellow] ({current_standings["drivers"][0]["wins"]} wins)
+                    [#E23E3C]2.[/#E23E3C] {format_name("drivers", 1):<25} {current_standings["drivers"][1]["points"]:>3} [yellow]Points[/yellow] ({current_standings["drivers"][1]["wins"]} wins)
+                    [#E23E3C]3.[/#E23E3C] {format_name("drivers", 2):<25} {current_standings["drivers"][2]["points"]:>3} [yellow]Points[/yellow] ({current_standings["drivers"][2]["wins"]} wins)     
+                    CONSTRUCTORS
+                    [#E23E3C]1.[/#E23E3C] {format_name("constructors", 0):<21}     {current_standings["constructors"][0]["points"]} [yellow]Points[/yellow] ({current_standings["constructors"][0]["wins"]} wins)
+                    [#E23E3C]2.[/#E23E3C] {format_name("constructors", 1):<21}     {current_standings["constructors"][1]["points"]} [yellow]Points[/yellow] ({current_standings["constructors"][1]["wins"]} wins)
+                    [#E23E3C]3.[/#E23E3C] {format_name("constructors", 2):<21}     {current_standings["constructors"][2]["points"]} [yellow]Points[/yellow] ({current_standings["constructors"][2]["wins"]} wins)
                     """
                 )
                 yield Label(standings)
 
-        with Container(id="footer"):
-            yield Label("F1 CLI | CURRENT_RACE: $DAYS | PRESS \\[[#E23E3C]1-7[/#E23E3C]] FOR MENU | (q) QUIT", id="footer-text")
+        yield from footer()
 
 
 class F1App(App):
