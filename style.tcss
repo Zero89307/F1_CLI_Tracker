@@ -1,13 +1,47 @@
-* {
-    text-style: bold;
-}
 Screen {
+    background: #141819;
     color: white;
-    layout: grid;
-    grid-size: 3 3;
-    grid-gutter: 1 2;
-
 }
+
+.dashboard-layout {
+    layout: vertical;
+}
+
+.help-layout {
+    layout: vertical;
+    align: center middle;
+}
+
+#header {
+    height: 7;
+    border: solid white;
+    grid-size: 3 1;
+    grid-columns: 1fr 1fr 1fr;
+}
+
+#header-text {
+    width: 1fr;
+    content-align: center middle;
+}
+
+#logo {
+    color: #e10600;
+}
+
+#footer {
+    height: 1;
+    background: #424649;
+    dock: bottom;
+}
+
+#first-grid, #second-grid {
+    height: 1fr;
+    layout: grid;
+    grid-gutter: 1 1;
+}
+
+#first-grid { grid-size: 2 1; grid-columns: 1fr 2fr; }
+#second-grid { grid-size: 2 1; grid-columns: 1fr 1fr; }
 
 .bento-box {
     border: solid mintcream;
@@ -15,6 +49,7 @@ Screen {
     padding: 0 1 0 1;
 }
 
+/* Intro Screen */
 Intro {
     align: center middle;
     layout: vertical;
@@ -31,34 +66,10 @@ Intro {
     color: gray;
     margin-top: 2;
 }
-#header {
-    height: 7;
-    border: solid white;
-    grid-size: 3 1;
-    grid-columns: 1fr 1fr 1fr;
-}
 
-#header-text {
-    width: 1fr;
-    content-align: center middle;
-}
-#logo {
-    color: #e10600;
-}
-
-Dashboard{
-    layout: vertical;
-    background: #141819;
-}
-
-#footer { height: 1; background: #424649; }
-
-
-#first-grid, #second-grid {
+#help-container {
     height: 1fr;
-    layout: grid;
-    grid-gutter: 1 1;
+    padding: 2;
+    content-align: center middle;
+    border: dashed gray;
 }
-
-#first-grid { grid-size: 2 1; grid-columns: 1fr 2fr; }
-#second-grid { grid-size: 2 1; grid-columns: 1fr 1fr; }

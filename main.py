@@ -18,6 +18,7 @@ def ascii_art(filename : str):
             return str(file.read())
     except FileNotFoundError:
         return "ASCII ART NOT FOUND"
+
 def box(text: str):
     bento = Static(classes="bento-box")
     bento.border_title = f"[#E23E3C]{text}[/#E23E3C]"
@@ -48,69 +49,83 @@ class Intro(Screen):
 
     def on_key(self, event: events.Key) -> None:
         if event.key == "enter":
-            self.app.push_screen(Dashboard())
+            self.app.switch_screen(Dashboard())
 
 class Dashboard(Screen):
     CSS_PATH = "style.tcss"
 
     BINDINGS = [
         ("q", "quit_app", "Quits Application"),
+        ("7", "Help_page", "moves to help page"),
     ]
 
+    def action_Help_page(self) -> None:
+        self.app.push_screen(Help_page())
     def action_quit_app(self) -> None:
         self.app.exit()
 
     def compose(self) -> ComposeResult:
-        yield from header()
+        with Container(classes="dashboard-layout"):
+            yield from header()
 
-        with Grid(id="first-grid"):
-            with box("MAIN MENU"):
-                menu = textwrap.dedent("""
-                  [yellow][1][/yellow] Session Overview
-                  [yellow][2][/yellow] Race Calender
-                  [yellow][3][/yellow] Driver Standings
-                  [yellow][4][/yellow] Constructors Standings
-                  [yellow][5][/yellow] Current Weekend
-                  [yellow][6][/yellow] News
-                  [yellow][7][/yellow] Help / Info 
+            with Grid(id="first-grid"):
+                with box("MAIN MENU"):
+                    menu = textwrap.dedent("""
+                      [yellow][1][/yellow] Session Overview
+                      [yellow][2][/yellow] Race Calender
+                      [yellow][3][/yellow] Driver Standings
+                      [yellow][4][/yellow] Constructors Standings
+                      [yellow][5][/yellow] Current Weekend
+                      [yellow][6][/yellow] News
+                      [yellow][7][/yellow] Help / Info 
 
-                """)
-                yield Label(menu)
-            with box("NEWS"):
-                for news in news_list:
-                    yield Label("\n"+ "[#E23E3C]-  [/#E23E3C]" + news + "[#E23E3C].[/#E23E3C]")
+                    """)
+                    yield Label(menu)
+                with box("NEWS"):
+                    for news in news_list:
+                        yield Label("\n"+ "[#E23E3C]-  [/#E23E3C]" + news + "[#E23E3C].[/#E23E3C]")
 
-        with Grid(id="second-grid"):
-            with box(f"NEXT RACE: [white on #141819]{next_race_data["country"]} GRAND PRIX[/white on #141819] ({next_race_data["location"]})"):
-                yield Label(f"   Date : {next_race_data["weekend_duration"]}.\n   Status :[yellow] RACE STARTS in {next_race_data["race"]["time_left"]["days"]} days, {next_race_data["race"]["time_left"]["hours"]} hours, {next_race_data["race"]["time_left"]["minutes"]} min[/yellow]\n")
-                text = textwrap.dedent(
-                    f"""\
-                    ⏱️ [#E23E3C]WEEKEND TIMETABLE[/#E23E3C]
-                        FP1   : {next_race_data["fp"]["fp_dates"]["fp1_date"]} ({next_race_data["fp"]["fp_times"]["fp1_time"]} CET)
-                        FP2   : {next_race_data["fp"]["fp_dates"]["fp2_date"]} ({next_race_data["fp"]["fp_times"]["fp2_time"]} CET)
-                        FP3   : {next_race_data["fp"]["fp_dates"]["fp3_date"]} ({next_race_data["fp"]["fp_times"]["fp3_time"]} CET)
-                        Quali : {next_race_data["quali"]["quali_date"]} ({next_race_data["quali"]["quali_time"]} CET)
-                        Race  : {next_race_data["race"]["race_date"]} ({next_race_data["race"]["race_time"]} CET)
-                    """
-                )
-                yield Label(text)
-            with box("LIVE STANDINGS"):
-                standings = textwrap.dedent(
-                    f"""\
-                    DRIVERS:
-                    [#E23E3C]1.[/#E23E3C] {format_name("drivers", 0):<25} {current_standings["drivers"][0]["points"]:>3} [yellow]Points[/yellow] ({current_standings["drivers"][0]["wins"]} wins)
-                    [#E23E3C]2.[/#E23E3C] {format_name("drivers", 1):<25} {current_standings["drivers"][1]["points"]:>3} [yellow]Points[/yellow] ({current_standings["drivers"][1]["wins"]} wins)
-                    [#E23E3C]3.[/#E23E3C] {format_name("drivers", 2):<25} {current_standings["drivers"][2]["points"]:>3} [yellow]Points[/yellow] ({current_standings["drivers"][2]["wins"]} wins)     
-                    CONSTRUCTORS
-                    [#E23E3C]1.[/#E23E3C] {format_name("constructors", 0):<21}     {current_standings["constructors"][0]["points"]} [yellow]Points[/yellow] ({current_standings["constructors"][0]["wins"]} wins)
-                    [#E23E3C]2.[/#E23E3C] {format_name("constructors", 1):<21}     {current_standings["constructors"][1]["points"]} [yellow]Points[/yellow] ({current_standings["constructors"][1]["wins"]} wins)
-                    [#E23E3C]3.[/#E23E3C] {format_name("constructors", 2):<21}     {current_standings["constructors"][2]["points"]} [yellow]Points[/yellow] ({current_standings["constructors"][2]["wins"]} wins)
-                    """
-                )
-                yield Label(standings)
+            with Grid(id="second-grid"):
+                with box(f"NEXT RACE: [white on #141819]{next_race_data['country']} GRAND PRIX[/white on #141819] ({next_race_data['location']})"):
+                    yield Label(f"   Date : {next_race_data['weekend_duration']}.\n   Status :[yellow] RACE STARTS in {next_race_data['race']['time_left']['days']} days, {next_race_data['race']['time_left']['hours']} hours, {next_race_data['race']['time_left']['minutes']} min[/yellow]\n")
+                    text = textwrap.dedent(
+                        f"""\
+                        ⏱️ [#E23E3C]WEEKEND TIMETABLE[/#E23E3C]
+                            FP1   : {next_race_data["fp"]["fp_dates"]["fp1_date"]} ({next_race_data["fp"]["fp_times"]["fp1_time"]} CET)
+                            FP2   : {next_race_data["fp"]["fp_dates"]["fp2_date"]} ({next_race_data["fp"]["fp_times"]["fp2_time"]} CET)
+                            FP3   : {next_race_data["fp"]["fp_dates"]["fp3_date"]} ({next_race_data["fp"]["fp_times"]["fp3_time"]} CET)
+                            Quali : {next_race_data["quali"]["quali_date"]} ({next_race_data["quali"]["quali_time"]} CET)
+                            Race  : {next_race_data["race"]["race_date"]} ({next_race_data["race"]["race_time"]} CET)
+                        """
+                    )
+                    yield Label(text)
+                with box("LIVE STANDINGS"):
+                    standings = textwrap.dedent(
+                        f"""\
+                        DRIVERS:
+                        [#E23E3C]1.[/#E23E3C] {format_name("drivers", 0):<25} {current_standings["drivers"][0]["points"]:>3} [yellow]Points[/yellow] ({current_standings["drivers"][0]["wins"]} wins)
+                        [#E23E3C]2.[/#E23E3C] {format_name("drivers", 1):<25} {current_standings["drivers"][1]["points"]:>3} [yellow]Points[/yellow] ({current_standings["drivers"][1]["wins"]} wins)
+                        [#E23E3C]3.[/#E23E3C] {format_name("drivers", 2):<25} {current_standings["drivers"][2]["points"]:>3} [yellow]Points[/yellow] ({current_standings["drivers"][2]["wins"]} wins)     
+                        CONSTRUCTORS
+                        [#E23E3C]1.[/#E23E3C] {format_name("constructors", 0):<21}     {current_standings["constructors"][0]["points"]} [yellow]Points[/yellow] ({current_standings["constructors"][0]["wins"]} wins)
+                        [#E23E3C]2.[/#E23E3C] {format_name("constructors", 1):<21}     {current_standings["constructors"][1]["points"]} [yellow]Points[/yellow] ({current_standings["constructors"][1]["wins"]} wins)
+                        [#E23E3C]3.[/#E23E3C] {format_name("constructors", 2):<21}     {current_standings["constructors"][2]["points"]} [yellow]Points[/yellow] ({current_standings["constructors"][2]["wins"]} wins)
+                        """
+                    )
+                    yield Label(standings)
 
-        yield from footer()
+            yield from footer()
 
+class Help_page(Screen):
+    CSS_PATH = "style.tcss"
+    BINDINGS = [("escape", "app.pop_screen", "Back")]
+
+    def compose(self) -> ComposeResult:
+        with Container(classes="help-layout"):
+            yield from header()
+            with Container(id="help-container"):
+                yield Label("HELP PAGE")
+            yield from footer()
 
 class F1App(App):
     def on_mount(self) -> None:
