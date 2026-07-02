@@ -124,6 +124,7 @@ class Help_page(Screen):
         with Container(classes="help-layout"):
             yield from header()
             with Container(id="help-container"):
+                help_text = """"""
                 yield Label("HELP PAGE")
             yield from footer()
 
